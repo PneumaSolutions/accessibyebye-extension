@@ -6,7 +6,7 @@
 
 # Chrome Extension TypeScript Starter
 
-[![Build](https://github.com/dcalvo/chrome-extension-typescript-starter/actions/workflows/build.yml/badge.svg)](https://github.com/dcalvo/chrome-extension-typescript-starter/actions/workflows/build.yml)
+[![Build](https://github.com/PneumaSolutions/AccessiByeBye/actions/workflows/build.yml/badge.svg)](https://github.com/PneumaSolutions/AccessiByeBye/actions/workflows/build.yml)
 
 Chrome Extension, TypeScript and Visual Studio Code
 
