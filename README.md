@@ -4,73 +4,52 @@
 </p>
 &nbsp;
 
-# Chrome Extension TypeScript Starter
+# AccessiByeBye
 
 [![Build](https://github.com/PneumaSolutions/AccessiByeBye/actions/workflows/build.yml/badge.svg)](https://github.com/PneumaSolutions/AccessiByeBye/actions/workflows/build.yml)
 
-Chrome Extension, TypeScript and Visual Studio Code
+Web accessibility overlays don't work. Wave them all bye-bye in one easy step, with AccessiByeBye!
 
 ## Prerequisites
 
-* [node](https://nodejs.org/)+[yarn](https://yarnpkg.com) (Current Versions)
+* [yarn](https://yarnpkg.com) (>=1.22.4)
 
-## Option
-
-* [Visual Studio Code](https://code.visualstudio.com/)
-
-## Includes the following
+## Built with
 
 * TypeScript
 * Webpack
 * React
-* Jest
-* Example Code
+* Chrome Extensions API
+    * Manifest V2
     * Chrome Storage
-    * Options Version 2
-    * content script
-    * count up badge number
-    * background
+    * Chrome webRequest
 
 ## Project Structure
 
-* src/typescript: TypeScript source files
-* src/assets: static files
+* src: TypeScript source files
+* public: Static files
+* resources: Icon files for distribution
 * dist: Chrome Extension directory
 * dist/js: Generated JavaScript files
 
 ## Setup
 
+```bash
+yarn install
 ```
-yarn
-```
 
-## Import as Visual Studio Code project
+## Build for production
 
-...
-
-## Build
-
-```
+```bash
 yarn build
 ```
 
 ## Build in watch mode
 
-### terminal
-
-```
+```bash
 yarn watch
 ```
-
-### Visual Studio Code
-
-Run watch mode.
-
-type `Ctrl + Shift + B`
 
 ## Load extension to chrome
 
 Load `dist` directory
-
-## Test
-`npx jest` or `yarn test`

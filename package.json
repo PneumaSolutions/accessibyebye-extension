@@ -6,7 +6,6 @@
     "watch": "webpack --config webpack/webpack.dev.js --watch",
     "build": "webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
-    "test": "npx jest",
     "style": "prettier \"src/**/*.{ts,tsx}\" --write",
     "prepare": "./prepare_icons.sh"
   },
@@ -27,15 +26,12 @@
   },
   "devDependencies": {
     "@types/chrome": "0.0.100",
-    "@types/jest": "^25.1.4",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/uuid": "^8.3.0",
     "copy-webpack-plugin": "^6.1.0",
-    "jest": "^25.1.0",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2 ",
-    "ts-jest": "^25.2.1 ",
     "ts-loader": "^6.2.1",
     "typescript": "~3.8.3 ",
     "webpack": "^4.44.1",
