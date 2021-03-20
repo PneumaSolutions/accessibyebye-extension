@@ -47,11 +47,9 @@ jobs:
           directory: dist
           
       - name: Release
-        uses: Shopify/upload-to-release@v1.0.1
+        uses: ncipollo/release-action@v1.8.1
         with:
           # Artifact name
-          name: AccessiByeBye
-          # Path to the file to upload
-          path: ./accessibyebye.zip
+          artifact: accessibyebye.zip
           # secrets.GITHUB_TOKEN
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
