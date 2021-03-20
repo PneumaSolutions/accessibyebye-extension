@@ -42,15 +42,3 @@ jobs:
           filename: accessibyebye.zip
           # Working directory before zipping
           directory: dist
-          
-      - name: Release
-        uses: ncipollo/release-action@v1.8.1
-        with:
-          # Artifact name
-          artifacts: accessibyebye.zip
-          # Release name
-          name: AccessiByeBye
-          # Branch
-          commit: master
-          # secrets.GITHUB_TOKEN
-          token: ${{ secrets.GITHUB_TOKEN }}
