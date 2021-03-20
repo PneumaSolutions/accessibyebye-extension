@@ -14,13 +14,6 @@
     "default_popup": "popup.html"
   },
 
-  "content_scripts": [
-      {
-          "matches": ["<all_urls>"],
-          "js": ["js/vendor.js"]
-      }
-  ],
-
   "background": {
     "scripts": ["js/vendor.js", "js/background.js", "js/hot_reload.js"]
   },
