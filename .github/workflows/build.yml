@@ -50,6 +50,8 @@ jobs:
         uses: ncipollo/release-action@v1.8.1
         with:
           # Artifact name
-          artifact: accessibyebye.zip
+          artifacts: accessibyebye.zip
+          # Release name
+          name: AccessiByeBye
           # secrets.GITHUB_TOKEN
           token: ${{ secrets.GITHUB_TOKEN }}
