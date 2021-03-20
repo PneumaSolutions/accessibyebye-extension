@@ -50,5 +50,7 @@ jobs:
           artifacts: accessibyebye.zip
           # Release name
           name: AccessiByeBye
+          # Branch
+          commit: master
           # secrets.GITHUB_TOKEN
           token: ${{ secrets.GITHUB_TOKEN }}
