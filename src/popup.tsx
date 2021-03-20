@@ -2,45 +2,22 @@ import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 
 const Popup = () => {
-  const [count, setCount] = useState(0)
-  const [currentURL, setCurrentURL] = useState<string>()
+  const [blockCounter, setBlockCounter] = useState<number>(0)
 
   useEffect(() => {
-    chrome.browserAction.setBadgeText({ text: count.toString() })
-  }, [count])
-
-  useEffect(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      setCurrentURL(tabs[0].url)
+    // Restores settings state using the preferences stored in chrome.storage.
+    chrome.storage.sync.get(null, (storage) => {
+      setBlockCounter(storage.blockCounter)
     })
-  })
-
-  const changeBackground = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const tab = tabs[0]
-      if (tab.id) {
-        chrome.tabs.sendMessage(
-          tab.id,
-          {
-            color: "#555555",
-          },
-          (msg) => {
-            console.log("result message:", msg)
-          }
-        )
-      }
-    })
-  }
+  }, [])
 
   return (
-    <>
-      <ul style={{ minWidth: "700px" }}>
-        <li>Current URL: {currentURL}</li>
-        <li>Current Time: {new Date().toLocaleTimeString()}</li>
-      </ul>
-      <button onClick={() => setCount(count + 1)}>count up</button>
-      <button onClick={changeBackground}>change background</button>
-    </>
+    <div style={{minWidth: "250px"}}>
+      <p style={{fontSize: "large"}}>
+        Overlays blocked since install: {blockCounter}
+      </p>
+      <p>Brought to you by <a href="https://pneumasolutions.com/" target="_blank">Pneuma Solutions</a></p>
+    </div>
   )
 }
 

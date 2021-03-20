@@ -10,7 +10,7 @@
     "style": "prettier \"src/**/*.{ts,tsx}\" --write",
     "prepare": "./prepare_icons.sh"
   },
-  "prettier":{
+  "prettier": {
     "semi": false
   },
   "author": "",
@@ -22,13 +22,15 @@
   "dependencies": {
     "crx-hotreload": "^1.0.6",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/chrome": "0.0.100",
     "@types/jest": "^25.1.4",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/uuid": "^8.3.0",
     "copy-webpack-plugin": "^6.1.0",
     "jest": "^25.1.0",
     "prettier": "^2.2.1",
