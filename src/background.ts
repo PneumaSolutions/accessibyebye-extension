@@ -18,10 +18,12 @@ const theNaughtyList: Record<string, string[]> = {
     "*://cdn.userway.org/*"
   ],
   "AudioEye": [
-    "*://ws.audioeye.com/*"
+    "*://ws.audioeye.com/*",
+    "*://wsmcdn.audioeye.com/*"
   ],
   "EqualWeb": [
-    "*://aacdn.nagich.com/*"
+    "*://aacdn.nagich.com/*",
+    "*://*.nagich.co.il/*"
   ],
   "TruAbilities": [
     "*://app.truabilities.com/*"
