@@ -11,7 +11,8 @@ const analyticsEndpoint = "https://api.accessibyebye.org/analytics"
 
 const theNaughtyList: Record<string, string[]> = {
   "AccessiBe": [
-    "*://*.acsbap.com/*", "*://*.acsbapp.com/*"
+    "*://*.acsbap.com/*",
+    "*://*.acsbapp.com/*"
   ],
   "UserWay": [
     "*://cdn.userway.org/*"
@@ -27,6 +28,9 @@ const theNaughtyList: Record<string, string[]> = {
   ],
   "MaxAccess" : [
     "*://api.maxaccess.io/*"
+  ],
+  "User1st": [
+    "*://fecdn.user1st.info/*"
   ]
 }
 
