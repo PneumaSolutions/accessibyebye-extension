@@ -21,5 +21,5 @@ First, run `yarn build` to output the `dist/` directory.
 ### In `dist/js/`
 3. Delete `hot_reload.js`
 
-### In the root directory
-4. Zip `dist/` and release
+### In `dist/`
+4. Zip the contents of the folder (not the folder) and release
