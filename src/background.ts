@@ -81,20 +81,24 @@ async function sendAnalytics(details: chrome.webRequest.WebRequestBodyDetails) {
       })
     })
     const lastSentAt = storage.lastSentAt
+    const lastBlockedHost = storage.lastBlockedHost
+    const blockedHostname = new URL(details.url).hostname
 
-    // If we sent it more than <analyticsCooldown> minutes ago
-    if (Date.now() > lastSentAt + 60000 * analyticsCooldown) {
+    // If the host is different or we sent it more than <analyticsCooldown> minutes ago
+    if (blockedHostname !== lastBlockedHost ||
+      Date.now() > lastSentAt + 60000 * analyticsCooldown) {
       // Send the analytics
       const data = {
         uuid: storage.UUID,
         hostname: details.initiator,
-        provider: getProvider(details.url)
+        provider: getProvider(blockedHostname)
       }
       console.log(data)
       const response = await postData(analyticsEndpoint, data)
       // Reset the cooldown if the server acknowledged
       if (response && response.ok) {
         chrome.storage.sync.set({ lastSentAt: Date.now() })
+        chrome.storage.sync.set({ lastBlockedHost: blockedHostname })
       }
     }
   }
@@ -110,7 +114,7 @@ async function isAnalyticsEnabled() {
 }
 
 // Helper function to get which overlay provider we blocked
-function getProvider(hostname: string | undefined) {
+function getProvider(hostname: string) {
   if (hostname) {
     for (const [provider, patterns] of Object.entries(theNaughtyList)) {
       for (let pattern of patterns) {
@@ -142,6 +146,7 @@ chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === "install") {
     chrome.storage.sync.set({ UUID: getUUID() })
     chrome.storage.sync.set({ analyticsEnabled: true })
+    chrome.storage.sync.set({ lastBlockedHost: "" })
     chrome.storage.sync.set({ lastSentAt: 0 })
     chrome.storage.sync.set({ blockCounter: 0 })
     chrome.tabs.create({ url: "https://www.accessibyebye.org/" })
