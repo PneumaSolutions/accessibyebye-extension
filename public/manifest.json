@@ -3,7 +3,7 @@
 
   "name": "AccessiByeBye",
   "description": "Web accessibility overlays don't work. Wave them all bye-bye in one easy step, with AccessiByeBye!",
-  "version": "1.0",
+  "version": "1.4",
 
   "options_ui": {
     "page": "options.html",
