@@ -15,28 +15,31 @@ const theNaughtyList: Record<string, string[]> = {
     "*://*.acsbapp.com/*"
   ],
   "UserWay": [
-    "*://cdn.userway.org/*"
+    "*://*.userway.org/*"
   ],
   "AudioEye": [
-    "*://ws.audioeye.com/*",
-    "*://wsmcdn.audioeye.com/*"
+    "*://*.audioeye.com/*"
   ],
   "EqualWeb": [
-    "*://aacdn.nagich.com/*",
+    "*://*.nagich.com/*",
     "*://*.nagich.co.il/*"
   ],
   "TruAbilities": [
-    "*://app.truabilities.com/*"
+    "*://*.truabilities.com/*"
   ],
   "MaxAccess" : [
-    "*://api.maxaccess.io/*"
+    "*://*.maxaccess.io/*"
   ],
   "User1st": [
-    "*://fecdn.user1st.info/*"
+    "*://*.user1st.info/*"
   ]
 }
 
 chrome.webRequest.onBeforeRequest.addListener((details) => {
+    // Check if the blocked site is actually an overlay
+    if (!isOverlay(details))
+      return { cancel: false }
+    
     // If enabled, send anonymous blocking statistics
     sendAnalytics(details)
 
@@ -54,6 +57,19 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
   },
   ["blocking"]
 )
+
+// Determine whether the site we intercepted is actually an overlay or just the product website
+function isOverlay(details: chrome.webRequest.WebRequestBodyDetails) {
+  // Split up the URL we intercepted
+  const blockedHostname = new URL(details.url).hostname
+  const blockedSubdomain = blockedHostname.split('.')[0].toLowerCase()
+
+  // Check if the subdomain we grabbed is www, or if there is no subdomain
+  if (blockedSubdomain === "www" || !blockedHostname.split('.')[2])
+    return false // Not an overlay, just their product website
+  else
+    return true
+}
 
 // Send what site was using the overlay when we blocked it
 async function sendAnalytics(details: chrome.webRequest.WebRequestBodyDetails) {
