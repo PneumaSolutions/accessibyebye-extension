@@ -39,4 +39,5 @@ jobs:
           path: |
             chrome.zip
             firefox.zip
+            src.zip
           if-no-files-found: error

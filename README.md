@@ -1,6 +1,7 @@
 &nbsp;
+
 <p align="center">
-  <img height="250" src="resources/icon.svg"/>
+  <img height="250" src="resources/icon.png"/>
 </p>
 &nbsp;
 
@@ -12,25 +13,25 @@ Web accessibility overlays don't work. Wave them all bye-bye in one easy step, w
 
 ## Prerequisites
 
-* [yarn](https://yarnpkg.com) (>=1.22.4)
+- [yarn](https://yarnpkg.com) (>=1.22.4)
 
 ## Built with
 
-* TypeScript
-* Webpack
-* React
-* Chrome Extensions API
-    * Manifest V2
-    * Chrome Storage
-    * Chrome webRequest
+- TypeScript
+- Webpack
+- React
+- Chrome Extensions API
+  - Manifest V2
+  - Chrome Storage
+  - Chrome webRequest
 
 ## Project Structure
 
-* src: TypeScript source files
-* public: Static files
-* resources: Icon files for distribution
-* dist: Chrome Extension directory
-* dist/js: Generated JavaScript files
+- src: TypeScript source files
+- public: Static files
+- resources: Icon files for distribution
+- dist: Chrome Extension directory
+- dist/js: Generated JavaScript files
 
 ## Setup
 
