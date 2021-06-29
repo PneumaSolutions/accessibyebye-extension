@@ -1,10 +1,12 @@
 {
-  "name": "chrome-extension-typescript-starter",
+  "name": "accessibyebye-extension",
   "version": "1.0.0",
-  "description": "chrome-extension-typescript-starter",
+  "description": "Web accessibility overlays don't work. Wave them all bye-bye in one easy step, with AccessiByeBye!",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "build": "webpack --config webpack/webpack.prod.js",
+    "build": "yarn build:chrome && yarn build:firefox",
+    "build:chrome": "webpack --config webpack/webpack.prod.js && zip -r chrome.zip dist",
+    "build:firefox": "webpack --config webpack/webpack.prod.js && cd dist && zip -r ../firefox.zip *",
     "clean": "rimraf dist",
     "style": "prettier \"src/**/*.{ts,tsx}\" --write",
     "prepare": "./prepare_icons.sh"
