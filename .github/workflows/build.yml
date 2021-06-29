@@ -27,11 +27,8 @@ jobs:
       - name: check style
         run: yarn style --check
 
-      - name: build chrome
-        run: yarn build:chrome
-
-      - name: build firefox
-        run: yarn build:firefox
+      - name: build
+        run: yarn build
 
       - name: Upload zipped distributables
         uses: actions/upload-artifact@v2.2.3
