@@ -2,44 +2,28 @@
  * Courtsey of Pneuma Solutions.
  * Written by David Calvo.
  * Find out more at AccessiByeBye.org
-*/
+ */
 
-import { v4 as getUUID } from 'uuid'
+import { v4 as getUUID } from "uuid"
 
 const analyticsCooldown = 0.5 // in minute
 const analyticsEndpoint = "https://api.accessibyebye.org/analytics"
 
 const theNaughtyList: Record<string, string[]> = {
-  "AccessiBe": [
-    "*://*.acsbap.com/*",
-    "*://*.acsbapp.com/*"
-  ],
-  "UserWay": [
-    "*://*.userway.org/*"
-  ],
-  "AudioEye": [
-    "*://*.audioeye.com/*"
-  ],
-  "EqualWeb": [
-    "*://*.nagich.com/*",
-    "*://*.nagich.co.il/*"
-  ],
-  "TruAbilities": [
-    "*://*.truabilities.com/*"
-  ],
-  "MaxAccess" : [
-    "*://*.maxaccess.io/*"
-  ],
-  "User1st": [
-    "*://*.user1st.info/*"
-  ]
+  AccessiBe: ["*://*.acsbap.com/*", "*://*.acsbapp.com/*"],
+  UserWay: ["*://*.userway.org/*"],
+  AudioEye: ["*://*.audioeye.com/*"],
+  EqualWeb: ["*://*.nagich.com/*", "*://*.nagich.co.il/*"],
+  TruAbilities: ["*://*.truabilities.com/*"],
+  MaxAccess: ["*://*.maxaccess.io/*"],
+  User1st: ["*://*.user1st.info/*"],
 }
 
-chrome.webRequest.onBeforeRequest.addListener((details) => {
+chrome.webRequest.onBeforeRequest.addListener(
+  (details) => {
     // Check if the blocked site is actually an overlay
-    if (!isOverlay(details))
-      return { cancel: false }
-    
+    if (!isOverlay(details)) return { cancel: false }
+
     // If enabled, send anonymous blocking statistics
     sendAnalytics(details)
 
@@ -62,13 +46,12 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
 function isOverlay(details: chrome.webRequest.WebRequestBodyDetails) {
   // Split up the URL we intercepted
   const blockedHostname = new URL(details.url).hostname
-  const blockedSubdomain = blockedHostname.split('.')[0].toLowerCase()
+  const blockedSubdomain = blockedHostname.split(".")[0].toLowerCase()
 
   // Check if the subdomain we grabbed is www, or if there is no subdomain
-  if (blockedSubdomain === "www" || !blockedHostname.split('.')[2])
-    return false // Not an overlay, just their product website
-  else
-    return true
+  if (blockedSubdomain === "www" || !blockedHostname.split(".")[2]) return false
+  // Not an overlay, just their product website
+  else return true
 }
 
 // Send what site was using the overlay when we blocked it
@@ -85,13 +68,15 @@ async function sendAnalytics(details: chrome.webRequest.WebRequestBodyDetails) {
     const blockedHostname = new URL(details.url).hostname
 
     // If the host is different or we sent it more than <analyticsCooldown> minutes ago
-    if (blockedHostname !== lastBlockedHost ||
-      Date.now() > lastSentAt + 60000 * analyticsCooldown) {
+    if (
+      blockedHostname !== lastBlockedHost ||
+      Date.now() > lastSentAt + 60000 * analyticsCooldown
+    ) {
       // Send the analytics
       const data = {
         uuid: storage.UUID,
         hostname: details.initiator,
-        provider: getProvider(blockedHostname)
+        cdn: blockedHostname,
       }
       console.log(data)
       const response = await postData(analyticsEndpoint, data)
@@ -113,22 +98,6 @@ async function isAnalyticsEnabled() {
   })
 }
 
-// Helper function to get which overlay provider we blocked
-function getProvider(hostname: string) {
-  if (hostname) {
-    for (const [provider, patterns] of Object.entries(theNaughtyList)) {
-      for (let pattern of patterns) {
-        pattern = pattern.split('.')[1]
-        if (hostname.includes(pattern)) {
-          return provider
-        }
-      }
-    }
-  } else {
-    return null
-  }
-}
-
 // Helper function to POST data using fetch()
 async function postData(url = "", data = {}) {
   const response = await fetch(url, {
@@ -137,7 +106,9 @@ async function postData(url = "", data = {}) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).catch((err) => { console.log(err + "\n Maybe the server is down?") })
+  }).catch((err) => {
+    console.log(err + "\n Maybe the server is down?")
+  })
   return response
 }
 
