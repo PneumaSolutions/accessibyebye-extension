@@ -3,7 +3,7 @@
 
   "name": "AccessiByeBye",
   "description": "Web accessibility overlays don't work. Wave them all bye-bye in one easy step, with AccessiByeBye!",
-  "version": "1.4",
+  "version": "1.5",
 
   "options_ui": {
     "page": "options.html",
@@ -18,12 +18,7 @@
     "scripts": ["js/background.js", "js/hot_reload.js"]
   },
 
-  "permissions": [
-    "storage",
-    "webRequest",
-    "webRequestBlocking",
-    "<all_urls>"
-  ],
+  "permissions": ["storage", "webRequest", "webRequestBlocking", "<all_urls>"],
 
   "icons": {
     "16": "icon16.png",
