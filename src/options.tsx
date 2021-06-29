@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 
 const Options = () => {
-  const [status, setStatus] = useState<string>('')
+  const [status, setStatus] = useState<string>("")
   const [analyticsEnabled, setAnalyticsEnabled] = useState<boolean>(false)
   const [blockCounter, setBlockCounter] = useState<number>(0)
 
@@ -24,7 +24,7 @@ const Options = () => {
         // Update status to let user know options were saved.
         setStatus("Options saved.")
         const id = setTimeout(() => {
-          setStatus('')
+          setStatus("")
         }, 2000)
         return () => clearTimeout(id)
       }
@@ -32,8 +32,8 @@ const Options = () => {
   }
 
   return (
-    <div style={{minWidth: "250px"}}>
-      <p style={{fontSize: "large"}}>
+    <div style={{ minWidth: "250px" }}>
+      <p style={{ fontSize: "large" }}>
         Overlays blocked since install: {blockCounter}
       </p>
       <label>
@@ -45,10 +45,20 @@ const Options = () => {
         Enable Anonymous Blocking Statistics
       </label>
       <p>
-          We don't collect any personal information. The blocking statistics are used to display the statistics you can see at <a href="https://www.accessibyebye.org/" target="_blank">AccessiByeBye</a>.
+        We don't collect any personal information. The blocking statistics are
+        used to display the statistics you can see at{" "}
+        <a href="https://www.accessibyebye.org/" target="_blank">
+          AccessiByeBye
+        </a>
+        .
       </p>
       <div>{status}</div>
-      <button style={{margin: "5px", marginTop: "10px"}} onClick={saveOptions}>Save</button>
+      <button
+        style={{ margin: "5px", marginTop: "10px" }}
+        onClick={saveOptions}
+      >
+        Save
+      </button>
     </div>
   )
 }

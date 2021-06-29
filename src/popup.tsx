@@ -12,11 +12,16 @@ const Popup = () => {
   }, [])
 
   return (
-    <div style={{minWidth: "250px"}}>
-      <p style={{fontSize: "large"}}>
+    <div style={{ minWidth: "250px" }}>
+      <p style={{ fontSize: "large" }}>
         Overlays blocked since install: {blockCounter}
       </p>
-      <p>Brought to you by <a href="https://pneumasolutions.com/" target="_blank">Pneuma Solutions</a></p>
+      <p>
+        Brought to you by{" "}
+        <a href="https://pneumasolutions.com/" target="_blank">
+          Pneuma Solutions
+        </a>
+      </p>
     </div>
   )
 }
