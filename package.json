@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dcalvo/chrome-extension-typescript-starter.git"
+    "url": "https://github.com/PneumaSolutions/accessibyebye-extension.git"
   },
   "dependencies": {
     "crx-hotreload": "^1.0.6",
