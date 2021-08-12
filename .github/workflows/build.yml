@@ -1,8 +1,6 @@
 name: Build
 
 on:
-  push:
-    branches: [master]
   pull_request:
     branches: [master]
 
@@ -29,15 +27,3 @@ jobs:
 
       - name: build
         run: yarn build
-
-      - name: Upload zipped distributables
-        uses: actions/upload-artifact@v2.2.3
-        with:
-          # Artifact name
-          name: Distributables
-          # A file, directory or wildcard pattern that describes what to upload
-          path: |
-            chrome.zip
-            firefox.zip
-            src.zip
-          if-no-files-found: error

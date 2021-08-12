@@ -1,0 +1,45 @@
+{
+  "plugins": [
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "linkCompare": false,
+        "linkReferences": false
+      }
+    ]
+  ],
+  "verifyConditions": [
+    "semantic-release-firefox",
+    "semantic-release-chrome",
+    "@semantic-release/github"
+  ],
+  "prepare": [
+    {
+      "path": "semantic-release-firefox",
+      "xpiPath": "firefox.xpi",
+      "distFolder": "dist"
+    },
+    {
+      "path": "semantic-release-chrome",
+      "asset": "chrome.zip"
+    }
+  ],
+  "publish": [
+    {
+      "path": "semantic-release-chrome",
+      "asset": "chrome.zip",
+      "extensionId": "ikcamkknjfdplkdjjncobgmpciklohjg"
+    },
+    {
+      "path": "@semantic-release/github",
+      "assets": [
+        {
+          "path": "firefox.xpi"
+        },
+        {
+          "path": "chrome.zip"
+        }
+      ]
+    }
+  ]
+}
