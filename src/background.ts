@@ -34,9 +34,7 @@ chrome.webRequest.onBeforeRequest.addListener(
   (details) => {
     
     // Check if the blocked site is actually an overlay
-    if (!isOverlay(details)) {
-      return { cancel: false }
-    }
+    if (!isOverlay(details)) return { cancel: false }
 
     // If enabled, send anonymous blocking statistics
     sendAnalytics(details)
