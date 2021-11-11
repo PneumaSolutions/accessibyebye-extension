@@ -17,12 +17,26 @@ const theNaughtyList: Record<string, string[]> = {
   TruAbilities: ["*://*.truabilities.com/*"],
   MaxAccess: ["*://*.maxaccess.io/*"],
   User1st: ["*://*.user1st.info/*"],
+  DIGIaccess: ["*://*.digiaccess.org/*"],
+  accessido: ["*://*.accessi.do/*"],
+  Accessiblelink: ["*://*.accessiblelink.com/*"],
+  Accessiway: ["*://*.accessiway.com/*"],
+  Adally: ["*://*.adally.com/*", "*://d2twz9av6or5hk.cloudfront.net/*"],
+  AdapteMonWeb: ["*://*.adaptemonweb.fr/*", "*://adaptemonweb.s3.eu-west-3.amazonaws.com/*"],
+  Allyable: ["*://*.allyable.com/*"],
+  FACILiti: ["*://*.facil-iti.com/*", "*://*.facil-iti.app/*"],
+  Lisio: ["*://*.numanis.net/*"],
+  ReciteME: ["*://*.reciteme.com/*"],
+  TrueAccessibility: ["*://*.equalweb.com/*"],
 }
 
 chrome.webRequest.onBeforeRequest.addListener(
   (details) => {
+    
     // Check if the blocked site is actually an overlay
-    if (!isOverlay(details)) return { cancel: false }
+    if (!isOverlay(details)) {
+      return { cancel: false }
+    }
 
     // If enabled, send anonymous blocking statistics
     sendAnalytics(details)
