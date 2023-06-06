@@ -4,7 +4,7 @@
   "description": "Web accessibility overlays don't work. Wave them all bye-bye in one easy step, with AccessiByeBye!",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "build": "yarn build:firefox && yarn build:chrome",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && yarn build:firefox && yarn build:chrome",
     "build:chrome": "webpack --config webpack/webpack.prod.js && zip -r chrome.zip dist",
     "zip": "zip -r src.zip . -x 'node_modules/*' '.git/*'",
     "build:firefox": "yarn zip && webpack --config webpack/webpack.prod.js && cd dist && zip -r ../firefox.zip .",
