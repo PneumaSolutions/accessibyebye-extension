@@ -6,7 +6,7 @@
 
 import { v4 as getUUID } from "uuid"
 
-const analyticsCooldown = 0.5 // in minute
+const analyticsCooldown = 0.5 // in minutes
 const analyticsEndpoint = "https://api.accessibyebye.org/analytics"
 
 const theNaughtyList: Record<string, string[]> = {
