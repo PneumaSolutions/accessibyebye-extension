@@ -17,6 +17,7 @@ const theNaughtyList: Record<string, string[]> = {
   TruAbilities: ["*://*.truabilities.com/*"],
   MaxAccess: ["*://*.maxaccess.io/*"],
   User1st: ["*://*.user1st.info/*"],
+  Accessibly: ["*://*.accessiblyapp.com/*"],
 }
 
 chrome.webRequest.onBeforeRequest.addListener(
