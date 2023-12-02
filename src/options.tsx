@@ -1,49 +1,76 @@
 import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 
+import theNaughtyList from "./providers"
+
 const Options = () => {
-  const [status, setStatus] = useState<string>("")
-  const [analyticsEnabled, setAnalyticsEnabled] = useState<boolean>(false)
+  const [allowedProviders, setAllowedProviders] = useState<Record<string, boolean> | null>(null)
+  const [analyticsEnabled, setAnalyticsEnabled] = useState<boolean | null>(null)
   const [blockCounter, setBlockCounter] = useState<number>(0)
 
   useEffect(() => {
     // Restores settings state using the preferences stored in chrome.storage.
     chrome.storage.sync.get(null, (storage) => {
+      setAllowedProviders(storage.allowedProviders || {})
       setAnalyticsEnabled(storage.analyticsEnabled)
       setBlockCounter(storage.blockCounter)
     })
   }, [])
-
-  const saveOptions = () => {
-    // Saves options to chrome.storage.sync.
-    chrome.storage.sync.set(
-      {
-        analyticsEnabled: analyticsEnabled,
-      },
-      () => {
-        // Update status to let user know options were saved.
-        setStatus("Options saved.")
-        const id = setTimeout(() => {
-          setStatus("")
-        }, 2000)
-        return () => clearTimeout(id)
-      }
-    )
-  }
 
   return (
     <div style={{ minWidth: "250px" }}>
       <p style={{ fontSize: "large" }}>
         Overlays blocked since install: {blockCounter}
       </p>
-      <label>
-        <input
-          type="checkbox"
-          checked={analyticsEnabled}
-          onChange={(event) => setAnalyticsEnabled(event.target.checked)}
-        />
-        Enable Anonymous Blocking Statistics
-      </label>
+      {Object.keys(theNaughtyList).map((provider) => {
+        return (
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={(allowedProviders || {})[provider] || false}
+                disabled={allowedProviders === null}
+                onChange={(event) => {
+                  if (allowedProviders === null) {
+                    return
+                  }
+                  let oldValue = allowedProviders[provider] || false
+                  let newValue = event.target.checked
+                  if (newValue === oldValue) {
+                    return
+                  }
+                  let newSetting = { ...allowedProviders }
+                  newSetting[provider] = newValue
+                  setAllowedProviders(newSetting)
+                  chrome.storage.sync.set({ allowedProviders: newSetting })
+                }}
+              />
+              {`Allow ${provider}`}
+            </label>
+          </div>
+        )
+      })}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={analyticsEnabled || false}
+            disabled={analyticsEnabled === null}
+            onChange={(event) => {
+              if (analyticsEnabled === null) {
+                return
+              }
+              let newValue = event.target.checked
+              if (newValue === analyticsEnabled) {
+                return
+              }
+              setAnalyticsEnabled(newValue)
+              chrome.storage.sync.set({ analyticsEnabled: newValue })
+            }}
+          />
+          Enable anonymous blocking statistics
+        </label>
+      </div>
       <p>
         We don't collect any personal information. The blocking statistics are
         used to display the statistics you can see at{" "}
@@ -52,13 +79,6 @@ const Options = () => {
         </a>
         .
       </p>
-      <div>{status}</div>
-      <button
-        style={{ margin: "5px", marginTop: "10px" }}
-        onClick={saveOptions}
-      >
-        Save
-      </button>
     </div>
   )
 }

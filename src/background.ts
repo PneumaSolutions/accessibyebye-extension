@@ -6,24 +6,14 @@
 
 import { v4 as getUUID } from "uuid"
 
+import theNaughtyList from "./providers"
+
 const analyticsCooldown = 0.5 // in minutes
 const analyticsEndpoint = "https://api.accessibyebye.org/analytics"
 
-const theNaughtyList: Record<string, string[]> = {
-  AccessiBe: ["*://*.acsbap.com/*", "*://*.acsbapp.com/*"],
-  UserWay: ["*://*.userway.org/*"],
-  AudioEye: ["*://*.audioeye.com/*"],
-  EqualWeb: ["*://cdn.equalweb.com/*", "*://*.nagich.com/*", "*://*.nagich.co.il/*"],
-  TruAbilities: ["*://*.truabilities.com/*"],
-  MaxAccess: ["*://*.maxaccess.io/*"],
-  User1st: ["*://*.user1st.info/*"],
-  Accessibly: ["*://*.accessiblyapp.com/*"],
-}
-
 chrome.webRequest.onBeforeRequest.addListener(
   (details) => {
-    // Check if the blocked site is actually an overlay
-    if (!isOverlay(details)) return { cancel: false }
+    if (!shouldBlock(details)) return { cancel: false }
 
     // If enabled, send anonymous blocking statistics
     sendAnalytics(details)
@@ -53,6 +43,71 @@ function isOverlay(details: chrome.webRequest.WebRequestBodyDetails) {
   if (blockedSubdomain === "www" || !blockedHostname.split(".")[2]) return false
   // Not an overlay, just their product website
   else return true
+}
+
+function findProvider(details: chrome.webRequest.WebRequestBodyDetails): string|null {
+  const blockedHostname = new URL(details.url).hostname
+  for (let [provider, patterns] of Object.entries(theNaughtyList)) {
+    for (let pattern of patterns) {
+      let domainBase = pattern.split(".")[1]
+      if (blockedHostname.indexOf(domainBase) != -1) {
+        return provider
+      }
+    }
+  }
+  return null
+}
+
+let allowedProviders: Record<string, boolean> = {}
+chrome.storage.sync.get("allowedProviders", (storage) => {
+  allowedProviders = storage["allowedProviders"] || {}
+})
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes.allowedProviders) {
+    allowedProviders = changes.allowedProviders.newValue || {}
+  }
+})
+
+let allowedTabs: Record<string, boolean> = {}
+chrome.tabs.onRemoved.addListener((tabId) => {
+  delete allowedTabs[tabId.toString()]
+})
+
+interface IsAllowedTabRequest {
+  type: "isAllowedTab"
+  tabId: number
+}
+
+interface SetAllowedTabRequest {
+  type: "setAllowedTab"
+  tabId: number
+  allowed: boolean
+}
+
+type IpcRequest = IsAllowedTabRequest | SetAllowedTabRequest
+
+chrome.runtime.onMessage.addListener((request: IpcRequest, sender, sendResponse) => {
+  if (request.type === "isAllowedTab") {
+    sendResponse(allowedTabs[request.tabId.toString()] || false)
+  } else if (request.type === "setAllowedTab") {
+    allowedTabs[request.tabId.toString()] = request.allowed
+    sendResponse({})
+  }
+})
+
+function shouldBlock(details: chrome.webRequest.WebRequestBodyDetails) {
+  // Check if the blocked site is actually an overlay
+  if (!isOverlay(details)) {
+    return false
+  }
+  if (allowedTabs[details.tabId.toString()]) {
+    return false
+  }
+  let provider = findProvider(details)
+  if (provider) {
+    return !allowedProviders[provider]
+  }
+  return true
 }
 
 // Send what site was using the overlay when we blocked it
