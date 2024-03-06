@@ -7,5 +7,6 @@ const theNaughtyList: Record<string, string[]> = {
   MaxAccess: ["*://*.maxaccess.io/*"],
   User1st: ["*://*.user1st.info/*"],
   Accessibly: ["*://*.accessiblyapp.com/*"],
+  "Eye-Able": ["*://cdn.eye-able.com/*"],
 }
 export default theNaughtyList
